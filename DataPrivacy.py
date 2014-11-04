@@ -332,6 +332,8 @@ class dpFrame(wx.Frame):
         dlg=wx.NumberEntryDialog(self,message='Please enter k, default 3!',prompt='k:',caption='k-anonymity parameter',value=3,min=2,max=20)
         if (dlg.ShowModal() == wx.ID_OK):
             k=dlg.GetValue()
+        else:
+            return
   
         if len(self.g.node)!=0:
                 deglist=graphtodegree(self.g)
@@ -342,6 +344,7 @@ class dpFrame(wx.Frame):
                 addNode(self.g,deglist)
         else:
             print 'Grap is empty!! Please load data!'
+            
 
     def OnAnalyze(self,e):
         print 'onananlyze'
