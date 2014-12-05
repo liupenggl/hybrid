@@ -1,4 +1,5 @@
 import exceptions
+import networkx as nx
 class dog(object):
     'test class'
     v=0
@@ -26,6 +27,20 @@ def para(*p):
 
 def parad(**p):
     print p
+def ta(att_d=None,**attr):
+    print att_d,'\n'
+    print "attr:",attr
+
+def itest():
+    x=[(3,4),(2,3)]
+    g=nx.Graph()
+    g.add_path(range(4))
+    y=(3,4)
+    try:
+        print y in g.node
+        g.adj[y]={}
+    except TypeError:
+        print "type error"
 
 if __name__=='__main__':
     #print " In main"
@@ -33,4 +48,7 @@ if __name__=='__main__':
     #print hasattr(g,'showg')
     #g.ad()
     #print "property name ",g.name
+    ta(att_d=7,d=5,y="YYY",t='time')
+    #itest()
+ 
  
