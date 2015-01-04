@@ -36,6 +36,7 @@ def readFileTxt(g,path=None):
    
     f.close()
     return g
+
 #-------------------------------------------------------------------------------
 def readFileNet(g,path=None):
     #read .net file. Ues the function of nx.read_pajek()
@@ -57,11 +58,14 @@ def saveFileNet(g,path=None):
     except:
         print "Save file .net errro!"
     return True
+
 #-------------------------------------------------------------------------------
-def sh(g):
+def DrawGraph(g, pos=None, ax=None, hold=None, **kwds):
     """call nx.draw to display the data"""
     nx.draw(g,with_labels = True,pos=nx.spring_layout(g))
     plt.show()
+
+
 #-------------------------------------------------------------------------------
 def graphtodegree(g):
     #calculate the graph's degree sequence
@@ -184,8 +188,27 @@ def randomAnony(g,k,*li):
         sc=li[0]
         sc.SetValue(outStr)
 
-        
+#-------------------------------------------------------------------------
+def clustering(g, nodes=None, weight=None):      
+    if g.is_directed():
+        raise NetworkXError('Clustering algorithms are not defined ',
+                            'for directed graphs.')
+    if weight is not None:
+        td_iter=_weighted_triangles_and_degree_iter(g,nodes,weight)
+    else:
+        td_iter=_triangles_and_degree_iter(g,nodes)
 
+    clusterc={}
+
+    for v,d,t in td_iter:
+        if t==0:
+            clusterc[v]=0.0
+        else:
+            clusterc[v]=t/float(d*(d-1))
+
+    if nodes in g: 
+        return list(clusterc.values())[0] # return single value
+    return clusterc
 
 #-------------------------------------------------------------------------
 if __name__=='__main__':

@@ -380,7 +380,7 @@ class dpFrame(wx.Frame):
 
 #---------------------------------------
     def OnDrawGraph(self,e):
-        sh(self.g)
+        DrawGraph(self.g)
 #---------------------------------------
     def OnKanon(self,e):
         self.rtb.SetValue("")
@@ -453,6 +453,11 @@ class dpFrame(wx.Frame):
         if len(self.g.node)!=0:
             print self.g.degree()
             x=self.g.degree().values()
+
+            self.rtb.SetValue("")
+            cStr="Degree Distribution is :\n"+str(x)
+            self.rtb.SetValue(cStr)
+
             n, bins, patches =plt.hist(x)
             plt.xlabel('Degree')
             plt.ylabel('Number')
@@ -471,12 +476,16 @@ class dpFrame(wx.Frame):
 
 #---------------------------------------
     def OnApl(self,e):
-        self.rtb.SetValue("")
-        if self.g.number_of_edges():
-            cStr="The average shortest path of the graph is :\n"+str(nx.average_shortest_path_length(self.g))
+        try:
+            self.rtb.SetValue("")
+            if self.g.number_of_edges():
+                cStr="The average shortest path of the graph is :\n"+str(nx.average_shortest_path_length(self.g))
+                self.rtb.SetValue(cStr)
+            else:
+                self.rtb.SetValue("Plese load the data!")
+        except Exception,e:
+            cStr=str(e)
             self.rtb.SetValue(cStr)
-        else:
-            self.rtb.SetValue("Plese load the data!")
 
 #---------------------------------------
     def OnHelpAbout(self, e):
