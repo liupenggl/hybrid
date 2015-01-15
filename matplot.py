@@ -33,6 +33,7 @@ def main():
  
     # Tweak spacing to prevent clipping of ylabel
     plt.subplots_adjust(left=0.15)
+
     plt.show()
 
 if __name__ == '__main__':
