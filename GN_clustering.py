@@ -28,7 +28,7 @@ def CmtyGirvanNewmanStep(G):
         for k, v in bw.iteritems():
             if float(v) == max_:
                 G.remove_edge(k[0],k[1])    #remove the central edge
-        ncomp = nx.number_connected_components(G)    #recalculate the no of components
+        ncomp = nx.number_connected_components(G)    #recalculate the number of components
 
 #compute the modularity of current split
 def _GirvanNewmanGetModularity(G, deg_, m_):
@@ -37,7 +37,7 @@ def _GirvanNewmanGetModularity(G, deg_, m_):
     New_deg = UpdateDeg(New_A, G.nodes())
     #Let's compute the Q
     comps = nx.connected_components(G)    #list of components    
-    print 'no of comp: %d' % len(comps)
+    #print 'no of comp: %d' % len(comps)
     Mod = 0    #Modularity of a given partitionning
     for c in comps:
         EWC = 0    #no of edges within a community
@@ -53,7 +53,7 @@ def _GirvanNewmanGetModularity(G, deg_, m_):
 def UpdateDeg(A, nodes):
     deg_dict = {}
     n = len(nodes)  #len(A) ---> some ppl get issues when trying len() on sparse matrixes!
-    B = A.sum(axis = 1)
+    B = A.sum(axis = 1)#对邻接矩阵进行行求和，返回为一列向量。
     for i in range(n):
         deg_dict[nodes[i]] = B[i, 0]
     return deg_dict
@@ -69,14 +69,14 @@ def runGirvanNewman(G, Orig_deg, m_):
         print "current modularity: %f" % Q
         if Q > BestQ:
             BestQ = Q
-            Bestcomps = nx.connected_components(G)    #Best Split
+            Bestcomps = list(nx.connected_components(G))    #Best Split
             print "comps:"
             print Bestcomps
         if G.number_of_edges() == 0:
             break
     if BestQ > 0.0:
         print "Best Q: %f" % BestQ
-        print Bestcomps
+        print list(Bestcomps)
     else:
         print "Best Q: %f" % BestQ
 
@@ -108,5 +108,28 @@ def main(argv):
     #run Newman alg
     runGirvanNewman(G, Orig_deg, m_)
 
-if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+
+if __name__=="__main__":
+    k=10
+    G=nx.planted_partition_graph(k,10,0.8,0.02)
+
+    #G=nx.generators.small.krackhardt_kite_graph()
+    print G.nodes()
+    print G.number_of_nodes()
+    
+    n = G.number_of_nodes()    #|V|
+    A = nx.adj_matrix(G)    #adjacenct matrix
+
+    m_ = 0.0    #the weighted version for number of edges
+    for i in range(0,n):
+        for j in range(0,n):
+            m_ += A[i,j]
+    m_ = m_/2.0
+    print "m: %f" % m_
+
+    #calculate the weighted degree for each node
+    Orig_deg = {}
+    Orig_deg = UpdateDeg(A, G.nodes())
+
+    #run Newman alg
+    runGirvanNewman(G, Orig_deg, m_)

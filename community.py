@@ -48,7 +48,7 @@ def pc():
     import random
     Y=[random.randint(1,30) for x in range(10) ]
 
-    print Y
+   
 
     print distance.squareform(Y)
     Z=hierarchy.complete(Y)  # Creates HC using farthest point linkage
@@ -67,8 +67,10 @@ if __name__=='__main__':
 
     g=nx.generators.small.krackhardt_kite_graph()
     nx.draw(g,with_labels = True,pos=nx.spring_layout(g))
+    
     #r=nx.find_cliques_recursive(g)  
-   # r=create_hc(g)
-    print pc()
+    r=create_hc(g)
+    print r
+    #print pc()
     #plt.show()
  

@@ -61,7 +61,7 @@ def spectral_clustering(g,k=2):
 def shs(g,clist):
     colList=dict.fromkeys(g.nodes())
     for index,lable in  enumerate(g.nodes()):
-        colList[lable]=0.1*result[index]
+        colList[lable]=0.1*clist[index]
     plt.figure(figsize=(8,8))
     pos=nx.spring_layout(g)
     nx.draw_networkx_edges(g,pos,alpha=0.4)
@@ -77,8 +77,8 @@ def shs(g,clist):
 
 
 if __name__=="__main__":
-    k=3
-    g=nx.planted_partition_graph(k,10,0.8,0.01)
+    k=5
+    g=nx.planted_partition_graph(k,10,0.8,0.02)
 
     result=spectral_clustering(g,k)
     shs(g,result)
