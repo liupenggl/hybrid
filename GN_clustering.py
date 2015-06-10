@@ -53,7 +53,7 @@ def _GirvanNewmanGetModularity(G, deg_, m_):
 def UpdateDeg(A, nodes):
     deg_dict = {}
     n = len(nodes)  #len(A) ---> some ppl get issues when trying len() on sparse matrixes!
-    B = A.sum(axis = 1)#对邻接矩阵进行行求和，返回为一列向量。
+    B = A.sum(axis = 1) 
     for i in range(n):
         deg_dict[nodes[i]] = B[i, 0]
     return deg_dict
@@ -110,7 +110,7 @@ def main(argv):
 
 
 if __name__=="__main__":
-    k=10
+    k=3
     G=nx.planted_partition_graph(k,10,0.8,0.02)
 
     #G=nx.generators.small.krackhardt_kite_graph()

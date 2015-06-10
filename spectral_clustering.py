@@ -5,6 +5,7 @@ import scipy.linalg as linalg
 import networkx as nx
 import matplotlib.pyplot as plt
 from scipy.cluster.vq import vq, kmeans
+from gfile import *
 
 def getNormLaplacian(W):
 	"""input matrix W=(w_ij)
@@ -82,6 +83,14 @@ if __name__=="__main__":
 
     result=spectral_clustering(g,k)
     shs(g,result)
+
+    #k=8
+    #g=nx.Graph()
+    #filepath=r'D:\data\prandom\polbooks.txt'
+    #read_file_txt(g,path=filepath)
+    #result=spectral_clustering(g,k)
+    #shs(g,result)
+
 
 #g=nx.karate_club_graph()
 

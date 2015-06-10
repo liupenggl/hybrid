@@ -16,6 +16,7 @@ class arrc:
 
     def __setitem__(self,key,value):
         self.changed[key]=value
+
 def dfs_edges(G, source=None):
     """Produce edges in a depth-first-search (DFS).
 
