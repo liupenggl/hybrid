@@ -7,6 +7,9 @@ from gfile import *
 import networkx as nx
 import random
 import string 
+
+import os
+
 def del_edge(g,m):
     """remove m edges in g at random"""
     if len(g.edges())>=m:
@@ -14,7 +17,7 @@ def del_edge(g,m):
             return medge
     else:
         print "not enough edges to remove, please check m"
- 
+
 def add_edge(g,m):
     compl=nx.complement(g)
     if len(compl.edges())>=m:
@@ -22,6 +25,23 @@ def add_edge(g,m):
         return aedge
     else:
         print "not enough nodes to add m edges, please check m"
+def p_kann(g,k):
+    """vk 包含节满足k匿名，vr包含节点不满足k匿名"""
+    if not g.nodes():
+        print "In p_kann(g,k) g is empty!"
+        return 0
+    vr=[]
+    vk=[]
+    d=g.degree().items()
+    dh=nx.degree_histogram(g)
+
+    for each in d:
+        if dh[each[1]]<k:
+            vr.append(each[0])
+        else:
+            vk.append(each[0])
+
+    return vk,vr
 
 def binomial_con_di(z,node,g,m):
     """删除m条边 X，然后添加m条边Y，z 是节点的度，node节点的标签，g图
@@ -44,124 +64,72 @@ def binomial_con_di(z,node,g,m):
         t+=1
     return sum
 
-def prand():
-    g=nx.Graph()
-    filepath=r'D:\program\code\hybrid\data\graph.txt'
-    read_file_txt(g,path=filepath)
-    bflist=[]
 
-    start='3'
-    bflist.append(start)
-    for each in nx.bfs_edges(g,start):
-        print each
-        bflist.append(each[1])
+def vrisk(node,g,subli,m=2):
+    """
+    return the probability of the node can be reidentfy by m pertubation
+    """
 
-    print bflist
-
-def bflist(g,source):
-    bfli=[]
-    bfli.append(source)
-    for each in nx.bfs_edges(g,source):
-        #print each
-        bfli.append(each[1])
-    #print bflist
-    return bfli
-
-def csgraph(bflist,s,node):#calcualte the sublist
-    length=len(bflist)
-    loc=bflist.index(node)
-    if length<2*s:
-        return bflist
-
-    a=loc/s#length=ax+b
-    b=loc%s
-    
-    sen=a*s
-
-    if sen+s>length:
-        return bflist[(a-1)*s:length]
-    elif sen+2*s>length:
-        return bflist[a*s:length]
-    else:
-        return bflist[a*s:(a+1)*s]
-
-def vrisk(node,g,subli,m):#calculate the prob of the node of m perturbation
-    m=2
     subg=g.subgraph(subli)
     ddiff=len(g[node])-len(subg[node])
-    pr=binomial_con_di(len(g[node])-ddiff,node,subg,m)
-    print node
-    print pr
+    pr=binomial_con_di(len(g[node])-ddiff,node,subg,m)#the prob of the degree of node not change.
+    #print node
+    #print pr
 
     prr=1-pr
-    f=open("temp.txt",'w')
+    #f=open("temp.txt",'w')
     
     for each in subli:
         ddiff=len(g[each])-len(subg[each])
-        f.write('{0:>2} {1} {2} {3}'.format(each,' : ',binomial_con_di(len(g[node])-ddiff,each,subg,m),'\n'))
+        #f.write('{0:>2} {1} {2} {3}'.format(each,' : ',binomial_con_di(len(g[node])-ddiff,each,subg,m),'\n'))
         prr=prr+binomial_con_di(len(g[node])-ddiff,each,subg,m)
-    
-    print pr*(1.0/prr) 
+
     return pr*(1.0/prr) 
     #f.close()
-def subrisk(g,subli,k):
-    m=2
+
+def subrisk(g,subli,m=2):
     max=0
+    f=open("temp.txt",'w')
+
     for each in subli:
         temp=vrisk(each,g,subli,m)
+        #f.write('{0:>2} {1} {2} {3}'.format(each,' : ',vrisk(each,g,subli,m),'\n'))
         max=max if max>temp else temp
 
+    f.close()
     print max
+    return max
 
-def test_p():
+def test_subrisk():
     g=nx.Graph()
-    #filepath=r'D:\data\prandom\polbooks.txt'
-    #filepath=r'D:\data\prandom\graph3.txt'
-    filepath=r'D:\program\code\hybrid\data\graph.txt'
+    #filepath=r'D:\program\data\partialkanonmity\newmovies.txt'
+    filepath=r'D:\program\data\partialkanonmity\polbooks.txt'
+    #filepath=r'D:\program\data\partialkanonmity\citation-raw.txt'
     read_file_txt(g,path=filepath)
-    m=1
-    node='3'
-    z=len(g[node])
+    tempname=os.path.split(filepath)
+    outName=os.getcwd()+r'\data\p_'+tempname[1]
+    f=open(outName,'w')
+    for k in range(5,45,5):     
+        vk,vr=p_kann(g,k)
+        m=20
+        p=1.0/k
+        r=subrisk(g,vr,m)
+        mMax=len(g.subgraph(vr).edges())
+        while r>p:
+            m=m+2
+            r=r=subrisk(g,vr,m)
+            f.write('k={0} m={1} r={2}\n'.format(k, m, r))
+            if m>mMax:
+                break
+        f.write('k={0},r={1},m={2}\n'.format(k,r,m))
+     
+    f.close()    
 
-    y=[]
-    for each in g.nodes():
-        y.append((each,binomial_con_di(z,each,g,m)))
-
-
-
-
-    for x in y:
-        print x
-    DrawGraph(g)
 
 
 if __name__=="__main__": 
-    g=nx.Graph()
-    ##filepath=r'D:\data\prandom\polbooks.txt'
-    ##filepath=r'D:\data\prandom\graph3.txt'
-    filepath=r'D:\program\code\hybrid\data\graph.txt'
-    read_file_txt(g,path=filepath)
-    #li=bflist(g,'3')
-    #s=g.subgraph(li[0:5])
+    print 'ss'
+    test_subrisk()
 
-    li=['3','6','7','9','8','4']
 
-    DrawGraph(s)
-    #print li
-    #ls=range(10)
-    #for each in ls:
-    #    rr=csgraph(ls,5,each)
-    #    print each,"xxx",rr
-
-    #rr=csgraph(ls,3,2)
-    #s=5
-    #m=2
-    node='3'
-    #bfli=bflist(g,node)
-
-    #print bfli
-
-    #vrisk(node,g,li,3)
-    subrisk(g,li,3)
-    #print rr
    

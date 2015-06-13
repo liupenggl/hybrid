@@ -325,7 +325,7 @@ class dpFrame(wx.Frame):
         #print self.g.nodes()
 
         if self.fileName!=self.dirName:
-            readFileTxt(self.g,self.fileName)    
+            read_file_txt(self.g,self.fileName)    
             if len(self.g.nodes())==0:
                 wx.MessageBox("Not read data from the file!!")
         
@@ -356,7 +356,7 @@ class dpFrame(wx.Frame):
 
         if self.fileName!=self.dirName:
             self.g.clear()             
-            self.g=readFileNet(self.g,self.fileName)
+            self.g=read_file_net(self.g,self.fileName)
             if len(self.g.nodes())==0:
                 wx.MessageBox("Not read data from the file!!")  
 #---------------------------------------

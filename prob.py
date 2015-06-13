@@ -23,24 +23,6 @@ def add_edge(g,m):
     else:
         print "not enough nodes to add m edges, please check m"
 
-def bib():
-    _lambda = 10.0
-    x = np.arange(20)
-    pl.figure(figsize=(10,4))
-    for i, n in enumerate([100, 1000]):
-        pl.subplot(121+i)
-        y1 = stats.binom.pmf(x, n, _lambda/n)
-        y2 = stats.poisson.pmf(x, _lambda)
-        pl.plot(x, y1, label=u"binom", lw=2)
-        pl.plot(x, y2, label=u"poisson", lw=2, color="red")
-        pl.xlabel(u"娆℃暟")
-        pl.ylabel(u"姒傜巼")
-        pl.title("n=%d" % n)
-        pl.legend()
-
-    pl.subplots_adjust(0.1, 0.15, 0.95, 0.90, 0.2, 0.1)
-    pl.show()
-
 def bi(n=20,p=0.5):
     p = 1.0/400
     n=200
@@ -75,14 +57,9 @@ def d():
     plt.legend()
     plt.show()
 
-def f():
-    plt.figure(1)
-    plt.subplot(221,axisbg='r')
-    plt.subplot(222,axisbg='g')
-    plt.subplot(211,axisbg='b')
-    plt.show()
+
 def binomial_con(z=1,n1=10,n2=20,p1=0.1,p2=0.1):
-    """z 是节点得度， n1是
+    """z 是节点得度， n1是实验次数
 
     """
     sum=0.0
@@ -112,25 +89,7 @@ def binomial_con_di(z,node,g,m):
 
         t+=1
     return sum
-#def binomial_con_di(z,node,g,m):
-#    """删除m条边 X，然后添加m条边Y，z 是节点的度，node节点的标签，g图
-#    """
-    
-#    n1=m if m<len(g[node]) else len(g[node])#delete at most min(m,node degree) edges, because a node has only len(g[node]) edges
-#    p1=1.0*m/len(g.edges())# n1 trails whit deleting probality p1
-    
-#    n2=m if m<(len(g.edges())-1-len(g[node])) else (len(g.edges())-1-len(g[node]))#leave enough node for edges adding
-#    p2=1.0*m/(len(g.nodes())*(len(g.nodes())-1)/2)
 
-#    di=len(g[node])
-#    sum=0.0
-#    t=0
-#    while t<=n1:
-#        if z-di+t>=0 and z-di+t<=n2:
-#            sum=sum+stats.binom.pmf(t,n1,p1)*stats.binom.pmf(z-di+t,n2,p2)
-
-#        t+=1
-#    return sum
 def test_bi(g=None,label=None):
     n1=20
     p1 = 0.1
@@ -217,6 +176,7 @@ def test_bi_g(g=None,label=None):
 
 
     plt.show()
+
 def km_random(g,k=5,m=3,start=None):
     """ k nodes of breath first sequence; m add and del number."""
     if start==None:
@@ -243,10 +203,9 @@ def km_random(g,k=5,m=3,start=None):
     except IndexError:
         print "pop finishing"
 
-    #for each in bfList:
-    #    print each
+ 
 
-def p_kann(g,k):
+def p_kann2(g,k):
     """le 包含节减少度1就达到k匿名，gr包含节点增加度1就到k匿名，rr包含节点不满足k匿名且不在前两种情况中。"""
     if not g.nodes():
         print "In hrandom(g,k) g is empty!"

@@ -147,25 +147,44 @@ def clustering(g, nodes=None, weight=None):
         return list(clusterc.values())[0] # return single value
     return clusterc
 
+
+def k_anonymity(g,k=3):
+    deglist=graphtodegree(g)
+    deglist.sort(key=lambda deg:deg['deg'],reverse=True)
+    degreee_anony(deglist,k)
+    deglist=diffSelect(deglist)
+    rv=[]
+    addEdge(g,deglist,rv)
+    addNode(g,deglist,rv)
+#   print rv
+    print len(rv)
+
+
+
 #-------------------------------------------------------------------------
 if __name__=='__main__':
     print 'sss'
     #filepath=os.getcwd()
     #filepath=os.path.join(filepath,"data\\AFFIL.NET")
-
     g=nx.Graph()
-    #readFileTxt(g,path=filepath)
-    readFileTxt(g)
+    filepath=r'D:\program\data\partialkanonmity\citation-raw.txt'
+    read_file_txt(g,path=filepath)
+    k_anonymity(g,10)
 
-    deglist=graphtodegree(g)
+
+
+    ##readFileTxt(g,path=filepath)
+    #readFileTxt(g)
+
+    #deglist=graphtodegree(g)
  
-    deglist.sort(key=lambda deg:deg['deg'],reverse=True)
+    #deglist.sort(key=lambda deg:deg['deg'],reverse=True)
 
-    degreee_anony(deglist,9)
+    #degreee_anony(deglist,9)
 
-    deglist=diffSelect(deglist)
+    #deglist=diffSelect(deglist)
 
-    addEdge(g,deglist)
+    #addEdge(g,deglist)
 
-    addNode(g,deglist)
-    sh(g)
+    #addNode(g,deglist)
+    #sh(g)

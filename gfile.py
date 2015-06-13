@@ -66,3 +66,7 @@ def DrawGraph(g, pos=None, ax=None, hold=None, **kwds):
     """call nx.draw to display the data"""
     nx.draw(g,with_labels = True,pos=nx.spring_layout(g))
     plt.show()
+
+def sh(g):
+    nx.draw(g,with_labels = True,pos=nx.spring_layout(g))
+    plt.show()
