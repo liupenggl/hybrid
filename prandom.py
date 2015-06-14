@@ -17,6 +17,8 @@ def del_edge(g,m):
             return medge
     else:
         print "not enough edges to remove, please check m"
+    return g
+#--------------------------------------------------------------#
 
 def add_edge(g,m):
     compl=nx.complement(g)
@@ -25,7 +27,11 @@ def add_edge(g,m):
         return aedge
     else:
         print "not enough nodes to add m edges, please check m"
-def p_kann(g,k):
+        return g
+#--------------------------------------------------------------#
+
+
+def partition(g,k):
     """vk 包含节满足k匿名，vr包含节点不满足k匿名"""
     if not g.nodes():
         print "In p_kann(g,k) g is empty!"
@@ -42,6 +48,16 @@ def p_kann(g,k):
             vk.append(each[0])
 
     return vk,vr
+#--------------------------------------------------------------------#
+
+def p_kann(g,k):
+    """perturbating g by m dege additions and m deletions"""
+    partition(g,k)
+    del_edge(g,m)
+    add_edge(g,m)
+    return g
+ 
+#-----------------------------------------------------------------#
 
 def binomial_con_di(z,node,g,m):
     """删除m条边 X，然后添加m条边Y，z 是节点的度，node节点的标签，g图

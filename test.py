@@ -11,6 +11,41 @@ import string
 from prandom import *
 from rsel import *
 
+def clustering(g, nodes=None, weight=None):      
+    if g.is_directed():
+        raise NetworkXError('Clustering algorithms are not defined ',
+                            'for directed graphs.')
+    if weight is not None:
+        td_iter=_weighted_triangles_and_degree_iter(g,nodes,weight)
+    else:
+        td_iter=_triangles_and_degree_iter(g,nodes)
+
+    clusterc={}
+
+    for v,d,t in td_iter:
+        if t==0:
+            clusterc[v]=0.0
+        else:
+            clusterc[v]=t/float(d*(d-1))
+
+    if nodes in g: 
+        return list(clusterc.values())[0] # return single value
+    return clusterc
+
+def test_cc():
+    g=nx.Graph()
+    #filepath=r'D:\program\data\partialkanonmity\newmovies.txt'
+    filepath=r'D:\program\data\partialkanonmity\polbooks.txt'
+    #filepath=r'D:\program\data\partialkanonmity\citation-raw.txt'
+    read_file_txt(g,path=filepath)
+    tempname=os.path.split(filepath)
+    outName=os.getcwd()+r'\data\cc_'+tempname[1]
+    f=open(outName,'w')
+
+    print nx.clustering(g)
+
+    f.close()  
+
 def test_subrisk():
     g=nx.Graph()
     #filepath=r'D:\program\data\partialkanonmity\newmovies.txt'
@@ -58,4 +93,5 @@ def test1():
 
 if __name__=="__main__":
     print 'sss'
-    test_subrisk()
+    #test_subrisk()
+    test_cc()
