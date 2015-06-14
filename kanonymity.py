@@ -155,9 +155,10 @@ def k_anonymity(g,k=3):
     deglist=diffSelect(deglist)
     rv=[]
     addEdge(g,deglist,rv)
+    temp=len(rv)
     addNode(g,deglist,rv)
-#   print rv
-    print len(rv)
+    temp=(len(rv)-temp)*3+temp
+    return len(rv)
 
 
 

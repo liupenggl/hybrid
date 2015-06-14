@@ -53,6 +53,7 @@ def partition(g,k):
 def p_kann(g,k):
     """perturbating g by m dege additions and m deletions"""
     partition(g,k)
+    m=3#calculated from risk
     del_edge(g,m)
     add_edge(g,m)
     return g
@@ -62,8 +63,7 @@ def p_kann(g,k):
 def binomial_con_di(z,node,g,m):
     """删除m条边 X，然后添加m条边Y，z 是节点的度，node节点的标签，g图
     """
-    if z<0:
-        return 0
+
     n1=m if m<len(g[node]) else len(g[node])#delete at most min(m,node degree) edges, because a node has only len(g[node]) edges
     p1=1.0*m/len(g.edges())# n1 trails whit deleting probality p1
     

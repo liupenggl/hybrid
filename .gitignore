@@ -40,3 +40,6 @@ Icon
 
 __init__.py
 *.pyc
+temp.txt
+*.pyc
+kanonymity.pyc
