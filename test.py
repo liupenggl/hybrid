@@ -11,6 +11,45 @@ import string
 from prandom import *
 from rsel import *
 
+def test_subrisk():
+    g=nx.Graph()
+    #filepath=r'D:\program\data\partialkanonmity\newmovies.txt'
+    filepath=r'D:\program\data\partialkanonmity\polbooks.txt'
+    #filepath=r'D:\program\data\partialkanonmity\citation-raw.txt'
+    read_file_txt(g,path=filepath)
+    tempname=os.path.split(filepath)
+    outName=os.getcwd()+r'\data\p_'+tempname[1]
+    f=open(outName,'w')
+    for k in range(25,45,5):     
+        vk,vr=p_kann(g,k)
+        m=20
+        p=1.0/k
+        r=subrisk(g,vr,m)
+        mMax=len(g.subgraph(vr).edges())
+        while r>p:
+            m=m+2
+            r=r=subrisk(g,vr,m)
+            f.write('k={0} m={1} r={2}\n'.format(k, m, r))
+            if m>mMax:
+                break
+        f.write('k={0},r={1},m={2}\n'.format(k,r,m))
+     
+    f.close()  
+
+def test_il_p():
+    g=nx.Graph()
+    #filepath=r'D:\program\data\partialkanonmity\newmovies.txt'
+    filepath=r'D:\program\data\partialkanonmity\polbooks.txt'
+    #filepath=r'D:\program\data\partialkanonmity\citation-raw.txt'
+    read_file_txt(g,path=filepath)
+    tempname=os.path.split(filepath)
+    outName=os.getcwd()+r'\data\p_'+tempname[1]
+    f=open(outName,'w')
+
+
+    f.close()  
+
+
 def test1():
     g=nx.Graph()
     filepath=r'D:\program\code\hybrid\data\graph.txt'
@@ -19,4 +58,4 @@ def test1():
 
 if __name__=="__main__":
     print 'sss'
-    test1()
+    test_subrisk()
