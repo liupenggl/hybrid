@@ -1,7 +1,0 @@
-*Vertices 7
-asdasd
-*Edges 8
-3 6 1
-6 7 1
-7 9 1
-8 9 1
