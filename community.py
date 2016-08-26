@@ -67,8 +67,8 @@ if __name__=='__main__':
 
     g=nx.generators.small.krackhardt_kite_graph()
     nx.draw(g,with_labels = True,pos=nx.spring_layout(g))
-    #r=nx.find_cliques_recursive(g)  
-   # r=create_hc(g)
+    r=nx.find_cliques_recursive(g)
+    r=create_hc(g)
     print pc()
-    #plt.show()
+    plt.show()
  
