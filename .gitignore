@@ -35,3 +35,10 @@ Icon
 .Spotlight-V100
 .Trashes
 
+__init__.py
+*.xml
+*.pyc
+*.pyc
+*.pyc
+prob.pyc
+*.pyc
