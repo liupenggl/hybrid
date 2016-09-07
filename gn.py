@@ -138,6 +138,8 @@ def main(argv):
     G=nx.planted_partition_graph(k,10,0.8,0.02)
     # G.clear()
     bg(G)
+    from test import da
+    da(G)
 
     print G.nodes()
     print G.number_of_nodes()

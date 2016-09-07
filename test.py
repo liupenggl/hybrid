@@ -10,7 +10,7 @@ import string
 import sys
 from prandom import *
 from rsel import *
-
+from community_louvain import *
 
 def test1():
     g=nx.Graph()
@@ -18,27 +18,26 @@ def test1():
     read_file_txt(g,path=filepath)
     sh(g)
 
-def say(worker):
-    print 'I am worker %s' % worker
-    def dec(fn):
-        print 'staring..'
-        fn(*argv,**kwgs)
-        print 'end.'
-    return dec
-
-@say("main")
-def main(n):
-    for i in range(n):
-        print i*2
 def da(g):
     g.add_edges_from([(1,2),(1,3),(1,4),(2,3),(3,4),(4,5),(4,6),(5,6),(5,7),(5,8),(6,7),(6,8),(7,8),(7,9)])
     return g
 
+def shFast(result,G):
+    size = float(len(set(result.values())))
+    pos = nx.spring_layout(G)
+    count = 0.
+    for com in set(result.values()):
+        count = count + 1.
+        list_nodes = [nodes for nodes in result.keys() if result[nodes] == com]
+        nx.draw_networkx_nodes(G, pos, list_nodes, node_size=20, node_color=str(count / size))
+    nx.draw_networkx_edges(G, pos, alpha=0.5)
+    plt.show()
 
 if __name__=="__main__":
     print 'sss'
-    print sys.argv
+    g = nx.Graph()
+    da(g)
+    r = best_partition(g)
+    shFast(r, g)
 
-    main(3)
-for i in range(9):
-    c[:,i]= c[:,i]/ c[:,i].sum()
+
