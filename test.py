@@ -1,14 +1,14 @@
 #-*- coding:utf-8 -*-
 from scipy import stats
 import numpy as np
-import pylab as pl
+#import pylab as pl
 import matplotlib.pyplot as plt
-from gfile import *
+#from gfile import *
 import networkx as nx
 import random
 import string 
 import sys
-from prandom import *
+#from prandom import *
 from rsel import *
 from community_louvain import *
 
@@ -19,8 +19,12 @@ def test1():
     sh(g)
 
 def da(g):
+    g.clear()
     g.add_edges_from([(1,2),(1,3),(1,4),(2,3),(3,4),(4,5),(4,6),(5,6),(5,7),(5,8),(6,7),(6,8),(7,8),(7,9)])
     return g
+def db(g):
+    g.clear()
+    g.add_edges_from([(1, 2), (1, 5),(2, 3), (2, 4), (4, 5), (5, 6), (5, 7)])
 
 def shFast(result,G):
     size = float(len(set(result.values())))
@@ -34,10 +38,11 @@ def shFast(result,G):
     plt.show()
 
 if __name__=="__main__":
-    print 'sss'
+    print 'sss'#测试中文注释
     g = nx.Graph()
-    da(g)
+    db(g)
     r = best_partition(g)
-    shFast(r, g)
+    print modularity(r,g)
+    sh(g)
 
 
